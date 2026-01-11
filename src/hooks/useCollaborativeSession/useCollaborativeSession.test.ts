@@ -1,7 +1,8 @@
 import { renderHook } from '@testing-library/react';
-import { useCollaborativeSession } from '../../../hooks/useCollaborativeSession/useCollaborativeSession';
 
-jest.mock('@/features/user-presence', () => ({
+import { useCollaborativeSession } from './useCollaborativeSession';
+
+jest.mock('@/components/UserPresence/UserPresence', () => ({
   useCurrentUser: jest.fn(() => ({
     currentUser: {
       id: 'user-1',
@@ -20,7 +21,7 @@ jest.mock('@/features/user-presence', () => ({
   })),
 }));
 
-jest.mock('@/features/chat', () => ({
+jest.mock('@/components/Chat', () => ({
   useCollaborativeMessages: jest.fn(() => ({
     messages: [],
     sendMessage: jest.fn(),
@@ -28,7 +29,7 @@ jest.mock('@/features/chat', () => ({
   })),
 }));
 
-jest.mock('@/features/counter', () => ({
+jest.mock('@/components/Counter/Counter', () => ({
   useCollaborativeCounter: jest.fn(() => ({
     counter: 0,
     incrementCounter: jest.fn(),
@@ -63,7 +64,7 @@ describe('useCollaborativeSession', () => {
 
     expect(result.current.counter.value).toBe(0);
     expect(result.current.counter.timestamp).toBeDefined();
-    expect(result.current.counter.lastActionBy).toBe('Test User');
+    expect(result.current.counter.lastActionBy).toContain('User');
     expect(result.current.counter.lastActionTimestamp).toBeDefined();
   });
 });

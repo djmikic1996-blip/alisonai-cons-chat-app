@@ -1,11 +1,10 @@
-import * as React from 'react';
-import { Chip as MuiChip } from '@mui/material';
-import type { ChipProps as MuiChipProps } from '@mui/material';
+import { Chip } from '@mui/material';
 import { cn } from '@/utils';
 
-export interface BadgeProps extends Omit<MuiChipProps, 'variant' | 'children'> {
+export interface BadgeProps {
+  label: string;
   variant?: 'default' | 'secondary' | 'destructive' | 'outline';
-  children?: React.ReactNode;
+  className?: string;
 }
 
 export const Badge = ({ className, variant = 'default', ...props }: BadgeProps) => {
@@ -25,12 +24,11 @@ export const Badge = ({ className, variant = 'default', ...props }: BadgeProps) 
   const muiProps = getMuiProps();
 
   return (
-    <MuiChip
-      {...muiProps}
+    <Chip
       {...props}
+      {...muiProps}
       size="small"
       className={cn('font-semibold h-auto py-1 px-0', className)}
-      label={props.children}
     />
   );
 };

@@ -1,5 +1,5 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
-import { useCollaborativeMessages } from '../../../hooks/useCollaborativeMessages/useCollaborativeMessages';
+import { useCollaborativeMessages } from './useCollaborativeMessages';
 
 const mockPostMessage = jest.fn();
 

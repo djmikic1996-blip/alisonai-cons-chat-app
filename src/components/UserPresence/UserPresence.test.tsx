@@ -1,8 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { UserPresence } from '../../../components/UserPresence/UserPresence';
 import type { User } from '@/types/collaboration';
 
-jest.mock('@/shared/hooks', () => ({
+import { UserPresence } from './UserPresence';
+
+jest.mock('@/hooks/useCurrentTime/useCurrentTime', () => ({
   useCurrentTime: jest.fn(() => Date.now()),
 }));
 

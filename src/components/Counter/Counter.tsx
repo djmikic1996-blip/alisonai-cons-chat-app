@@ -3,7 +3,8 @@ import type { CounterState } from '@/types/collaboration';
 import { Plus, Minus, Activity } from 'lucide-react';
 import { getRelativeTime } from '@/shared/utils';
 import { useCurrentTime } from '@/hooks/useCurrentTime/useCurrentTime';
-import { IconButton, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
+import { CounterButton } from './Counter.style';
 
 interface CounterProps {
   counter: CounterState;
@@ -23,42 +24,24 @@ export const Counter: React.FC<CounterProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Activity className="h-5 w-5" />
-          Shared Counter
+          Counter
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <Stack height="10vh" direction="row" justifyContent="space-between">
           <Typography>
-            Counter: {counter.value} - Clicked by {counter.lastActionBy} -
+            Counter: <span data-testId="timesClicked">{counter.value}</span> - Clicked by{' '}
+            <span data-testId="actionBy">{counter.lastActionBy}</span> -
             {getRelativeTime(currentTime, counter.lastActionTimestamp)} ago
           </Typography>
 
           <Stack direction="row" spacing={2}>
-            <IconButton
-              variant="outline"
-              onClick={onDecrement}
-              color="error"
-              sx={{
-                height: 33,
-                width: 33,
-                display: 'flex',
-                placeItems: 'center',
-              }}
-            >
+            <CounterButton onClick={onDecrement} color="error" data-testId="Decrement">
               <Minus />
-            </IconButton>
-            <IconButton
-              onClick={onIncrement}
-              color="primary"
-              sx={{
-                height: 33,
-                width: 33,
-                display: 'flex',
-                placeItems: 'center',
-              }}
-            >
+            </CounterButton>
+            <CounterButton onClick={onIncrement} color="primary" data-testId="Increment">
               <Plus />
-            </IconButton>
+            </CounterButton>
           </Stack>
         </Stack>
       </CardContent>

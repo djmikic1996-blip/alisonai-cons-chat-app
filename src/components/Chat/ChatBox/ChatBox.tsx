@@ -25,23 +25,21 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
 
   useEffect(() => {
     if (scrollRef.current) {
+      // Scroll on bottom when new message is sent or received
       scrollRef.current.scrollTo({
         top: scrollRef.current.scrollHeight,
-        behavior: 'smooth', // Optional: adds a smooth transition
       });
     }
   }, [messages]);
 
   return (
-    <Card
-      sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}
-    >
+    <Card className="flex flex-col h-full w-full">
       <CardHeader>
         <CardTitle>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Stack direction="row" alignItems="center" spacing={2}>
             <MessageSquare size={20} />
-            Chat Messages
-          </Box>
+            <Typography>Chat Messages</Typography>
+          </Stack>
         </CardTitle>
       </CardHeader>
 
@@ -53,40 +51,37 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
             overflowY: 'auto',
           }}
         >
-          <Stack height="55vh" spacing={2} sx={{ overflowY: 'auto' }} ref={scrollRef}>
+          <Stack
+            height={{ xs: '33vh', md: '55vh' }}
+            spacing={2}
+            overflow="auto"
+            ref={scrollRef}
+          >
             {messages.length === 0 ? (
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyCenter: 'center',
-                  height: 160,
-                }}
+              <Stack
+                height={160}
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
               >
                 <Typography color="text.secondary">
                   No messages yet. Start the conversation!
                 </Typography>
-              </Box>
+              </Stack>
             ) : (
               messages.map(message => {
                 const isOwn = isOwnMessage(message.userId, currentUser.id);
 
                 return (
-                  <Box
+                  <Stack
                     key={message.id}
-                    sx={{
-                      display: 'flex',
-                      justifyContent: isOwn ? 'flex-end' : 'flex-start',
-                    }}
+                    direction="row"
+                    justifyContent={isOwn ? 'flex-end' : 'flex-start'}
                   >
-                    <Box
-                      sx={{
-                        maxWidth: `${MESSAGE_MAX_WIDTH_PERCENTAGE}%`,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: isOwn ? 'flex-end' : 'flex-start',
-                        gap: 0.5,
-                      }}
+                    <Stack
+                      maxWidth={`${MESSAGE_MAX_WIDTH_PERCENTAGE}%`}
+                      alignItems={isOwn ? 'flex-end' : 'flex-start'}
+                      spacing={0.5}
                     >
                       {!isOwn && (
                         <Typography
@@ -112,25 +107,23 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
                         </Typography>
                       </Paper>
 
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 1 }}>
+                      <Stack direction="row" alignItems="center" px={1} spacing={1}>
                         <Typography variant="caption" color="text.secondary">
                           {formatTime(message.timestamp)}
                         </Typography>
 
                         {message.expiresAt && (
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: 0.5,
-                              color: 'warning.main',
-                            }}
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing={0.5}
+                            color="warning.main"
                           >
                             <Clock size={12} />
                             <Typography variant="caption">
                               {getExpirationCountdown(message.expiresAt, currentTime)}
                             </Typography>
-                          </Box>
+                          </Stack>
                         )}
 
                         {isOwn && (
@@ -142,18 +135,18 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
                             <Trash2 size={12} />
                           </IconButton>
                         )}
-                      </Box>
-                    </Box>
-                  </Box>
+                      </Stack>
+                    </Stack>
+                  </Stack>
                 );
               })
             )}
 
             {typingUsers.length > 0 && (
-              <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <Box sx={{ bgcolor: 'action.hover', borderRadius: 2, px: 2, py: 1 }}>
+              <Stack direction="row" justifyContent="flex-start">
+                <Stack px={2} py={1} bgcolor="action.hover" borderRadius={2}>
                   <Stack direction="row" spacing={1} alignItems="center">
-                    <Box sx={{ display: 'flex', gap: 0.5 }}>
+                    <Stack direction="row" spacing={0.5}>
                       {[0, 1, 2].map(i => (
                         <Box
                           key={i}
@@ -171,15 +164,15 @@ export const ChatBox: React.FC<ChatBoxProps> = ({
                           }}
                         />
                       ))}
-                    </Box>
+                    </Stack>
                     <Typography variant="caption" color="text.secondary">
                       {typingUsers.length === 1
                         ? `${typingUsers[0].name} is typing...`
                         : `${typingUsers.length} users are typing...`}
                     </Typography>
                   </Stack>
-                </Box>
-              </Box>
+                </Stack>
+              </Stack>
             )}
           </Stack>
         </Box>

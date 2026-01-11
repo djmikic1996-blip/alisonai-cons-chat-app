@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type SetStateAction } from 'react';
 import { Card, CardContent } from '@/components/ui/Card/Card';
 import { Button } from '@/components/ui/Button/Button';
 import { Textarea } from '@/components/ui/Textarea/Textarea';
@@ -53,7 +53,7 @@ export const MessageInput: React.FC<MessageInputProps> = ({
     stopTyping();
   };
 
-  const handleKeyDown = (e: any) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
@@ -68,7 +68,9 @@ export const MessageInput: React.FC<MessageInputProps> = ({
             <Textarea
               placeholder="Type your message... (Shift+Enter for new line)"
               value={message}
-              onChange={e => handleMessageChange(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                handleMessageChange(e.target.value)
+              }
               onKeyDown={handleKeyDown}
               rows={3}
               className="resize-none w-full"
@@ -92,9 +94,10 @@ export const MessageInput: React.FC<MessageInputProps> = ({
 
             <Input
               type="number"
-              min="1"
               value={expirationValue}
-              onChange={(e: any) => setExpirationValue(e.target.value)}
+              onChange={(e: { target: { value: SetStateAction<string> } }) =>
+                setExpirationValue(e.target.value)
+              }
               placeholder="30"
               className="w-24 flex-shrink-0 max-w-[6rem]"
               disabled={!enableExpiration}

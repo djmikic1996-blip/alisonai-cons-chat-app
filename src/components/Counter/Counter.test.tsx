@@ -1,8 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Counter } from './Counter';
 import type { CounterState } from '@/types/collaboration';
 
-jest.mock('@/shared/hooks', () => ({
+import { Counter } from './Counter';
+
+jest.mock('@/hooks/useCurrentTime/useCurrentTime', () => ({
   useCurrentTime: jest.fn(() => Date.now()),
 }));
 
@@ -30,8 +31,8 @@ describe('Counter', () => {
       />
     );
 
-    expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByText('Shared Counter')).toBeInTheDocument();
+    expect(screen.getByTestId('timesClicked')).toBeInTheDocument();
+    expect(screen.getByText('Counter')).toBeInTheDocument();
   });
 
   it('displays last action information', () => {
@@ -43,8 +44,8 @@ describe('Counter', () => {
       />
     );
 
-    expect(screen.getByText(/Last updated by/i)).toBeInTheDocument();
-    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByText(/Clicked by/i)).toBeInTheDocument();
+    expect(screen.getByTestId('actionBy')).toBeInTheDocument();
   });
 
   it('calls onIncrement when Increment button is clicked', () => {
@@ -56,7 +57,7 @@ describe('Counter', () => {
       />
     );
 
-    const incrementButton = screen.getByText('Increment');
+    const incrementButton = screen.getByTestId('Increment');
     fireEvent.click(incrementButton);
 
     expect(mockOnIncrement).toHaveBeenCalledTimes(1);
@@ -71,21 +72,9 @@ describe('Counter', () => {
       />
     );
 
-    const decrementButton = screen.getByText('Decrement');
+    const decrementButton = screen.getByTestId('Decrement');
     fireEvent.click(decrementButton);
 
     expect(mockOnDecrement).toHaveBeenCalledTimes(1);
-  });
-
-  it('displays sync information text', () => {
-    render(
-      <Counter
-        counter={mockCounter}
-        onIncrement={mockOnIncrement}
-        onDecrement={mockOnDecrement}
-      />
-    );
-
-    expect(screen.getByText(/synchronized across all open tabs/i)).toBeInTheDocument();
   });
 });

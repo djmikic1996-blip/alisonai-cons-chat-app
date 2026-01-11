@@ -6,9 +6,7 @@ export const convertToMilliseconds = (
 ): number | undefined => {
   const numValue = parseInt(value, 10);
 
-  if (isNaN(numValue) || numValue <= 0) {
-    return undefined;
-  }
+  if (isNaN(numValue) || numValue <= 0) return;
 
   return numValue * TIME_UNIT_MULTIPLIERS[unit];
 };

@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { type PropsWithChildren } from 'react';
 
 import { StyledAvatar } from './Avatar.styled';
 
-export interface AvatarProps {
+export interface AvatarProps extends PropsWithChildren {
   src?: string;
   alt?: string;
   fallback?: string;
+  className?: string;
 }
 
 export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(

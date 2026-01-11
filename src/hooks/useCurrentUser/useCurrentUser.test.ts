@@ -1,5 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
-import { useCurrentUser } from '../../../hooks/useCurrentUser/useCurrentUser';
+
+import { useCurrentUser } from './useCurrentUser';
 
 const mockPostMessage = jest.fn();
 

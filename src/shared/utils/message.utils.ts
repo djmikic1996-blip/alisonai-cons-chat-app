@@ -1,10 +1,8 @@
-export const isOwnMessage = (messageUserId: string, currentUserId: string): boolean => {
-  return messageUserId === currentUserId;
-};
+export const isOwnMessage = (messageUserId: string, currentUserId: string): boolean =>
+  messageUserId === currentUserId;
 
-export const generateMessageId = (): string => {
-  return `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-};
+export const generateMessageId = (): string =>
+  `msg-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
 
 export const isMessageExpired = (
   expiresAt: number | undefined,

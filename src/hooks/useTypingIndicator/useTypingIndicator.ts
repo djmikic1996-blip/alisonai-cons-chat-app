@@ -13,7 +13,6 @@ export const useTypingIndicator = ({ onTypingChange }: UseTypingIndicatorProps) 
     onTypingChangeRef.current = onTypingChange;
   }, [onTypingChange]);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (typingTimeoutRef.current) {

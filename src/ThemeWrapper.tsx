@@ -1,6 +1,7 @@
 import { useState, useMemo, type PropsWithChildren } from 'react';
 import { ThemeProvider, CssBaseline, Button, Box } from '@mui/material';
 import { Sun, Moon } from 'lucide-react';
+
 import { getAppTheme } from './Theme';
 
 export const ThemeWrapper: React.FC<PropsWithChildren> = ({ children }) => {

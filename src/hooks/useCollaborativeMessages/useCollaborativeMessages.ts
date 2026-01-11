@@ -40,9 +40,7 @@ export const useCollaborativeMessages = ({
         const msg = latestMessage.message as Message;
 
         // Skip if message already expired
-        if (isMessageExpired(msg.expiresAt)) {
-          return;
-        }
+        if (isMessageExpired(msg.expiresAt)) return;
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setLocalMessages(prev => {

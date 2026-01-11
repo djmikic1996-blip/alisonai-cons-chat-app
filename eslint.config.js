@@ -26,10 +26,7 @@ export default defineConfig([
     },
     rules: {
       'prettier/prettier': 'error',
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
   },
   prettierConfig,

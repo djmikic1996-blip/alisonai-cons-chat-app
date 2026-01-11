@@ -1,2 +1,2 @@
 export const generateUserId = (): string =>
-  `user-${Math.random().toString(36).substring(2, 9)}`;
+  `user-${Math.random().toString(36).substring(2, 11)}`;

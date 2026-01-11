@@ -53,7 +53,9 @@ export const useCollaborativeCounter = ({
   const decrementCounter = useCallback(() => {
     const newValue = localCounter - 1;
     const timestamp = Date.now();
+
     lastTimestampRef.current = timestamp;
+
     setLocalCounter(newValue);
     postCounterMessage(BROADCAST_CONSTANTS.ACTIONS.DECREMENT, {
       value: newValue,

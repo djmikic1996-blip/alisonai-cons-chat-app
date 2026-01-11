@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { useTypingIndicator } from './useTypingIndicator/useTypingIndicator';
+import { useTypingIndicator } from './useTypingIndicator';
 
 describe('useTypingIndicator', () => {
   beforeEach(() => {

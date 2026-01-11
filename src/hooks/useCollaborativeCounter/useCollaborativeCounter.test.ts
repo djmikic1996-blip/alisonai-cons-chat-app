@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { useCollaborativeCounter } from '../../../hooks/useCollaborativeCounter/useCollaborativeCounter';
+import { useCollaborativeCounter } from './useCollaborativeCounter';
 
 const mockPostMessage = jest.fn();
 

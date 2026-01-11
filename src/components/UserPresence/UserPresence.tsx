@@ -11,7 +11,7 @@ import { getRelativeTime } from '@/shared/utils';
 import { MAX_INITIALS } from '@/shared';
 
 import type { User } from '@/types/collaboration';
-import { Link, Stack, Typography } from '@mui/material';
+import { Link, Stack, Typography, useTheme } from '@mui/material';
 
 interface UserPresenceProps {
   currentUser: User;
@@ -27,6 +27,7 @@ export const UserPresence: React.FC<UserPresenceProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(currentUser.name);
   const now = useCurrentTime();
+  const theme = useTheme();
 
   const handleSave = () => {
     if (editName.trim() && editName !== currentUser.name) {
@@ -51,20 +52,29 @@ export const UserPresence: React.FC<UserPresenceProps> = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 overflow-y-auto space-y-4">
-        <div className="space-y-2">
-          <p className="text-sm text-muted-foreground font-medium">You</p>
-          <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
-            <div>
+        <Stack spacing={2} justifyContent="center">
+          <Typography>You</Typography>
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={2}
+            borderRadius={2}
+            p={2}
+            border={`1px solid ${theme.palette.grey[300]}`}
+          >
+            <Stack spacing={1}>
               <Avatar>{getUserInitials(currentUser.name, MAX_INITIALS)}</Avatar>
-              <Badge variant="default">You</Badge>
-            </div>
+              <Badge variant="default" label="You" />
+            </Stack>
             <div className="flex-1 min-w-0">
               {isEditing ? (
-                <div className="space-y-2">
+                <Stack spacing={2}>
                   <Input
                     value={editName}
-                    onChange={e => setEditName(e.target.value)}
-                    onKeyDown={e => {
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setEditName(e.target.value)
+                    }
+                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                       if (e.key === 'Enter') handleSave();
                       if (e.key === 'Escape') handleCancel();
                     }}
@@ -89,13 +99,11 @@ export const UserPresence: React.FC<UserPresenceProps> = ({
                       <X className="h-3.5 w-3.5 mr-1" />
                     </Button>
                   </div>
-                </div>
+                </Stack>
               ) : (
-                <div className="space-y-1.5">
-                  <p className="font-semibold text-base truncate text-left">
-                    {currentUser.name}
-                  </p>
-                  <div className="flex items-center gap-2 flex-wrap">
+                <Stack spacing={1.4}>
+                  <Typography>{currentUser.name}</Typography>
+                  <Stack alignItems="center" direction="row" spacing={0.5}>
                     <Button
                       size="sm"
                       variant="ghost"
@@ -108,12 +116,12 @@ export const UserPresence: React.FC<UserPresenceProps> = ({
                     <span className="text-xs text-muted-foreground">
                       {currentUser.isTyping ? 'typing...' : 'online'}
                     </span>
-                  </div>
-                </div>
+                  </Stack>
+                </Stack>
               )}
             </div>
-          </div>
-        </div>
+          </Stack>
+        </Stack>
 
         {otherUsers.length > 0 && (
           <Stack spacing={2}>
@@ -122,29 +130,36 @@ export const UserPresence: React.FC<UserPresenceProps> = ({
             </Typography>
             <Stack spacing={2}>
               {otherUsers.map(user => (
-                <div
+                <Stack
                   key={user.id}
-                  className="flex items-start gap-4 p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+                  direction="row"
+                  alignItems="center"
+                  spacing={2}
+                  borderRadius={2}
+                  p={2}
+                  border={`1px solid ${theme.palette.grey[300]}`}
                 >
                   <Avatar className="h-10 w-10">
                     {getUserInitials(user.name, MAX_INITIALS)}
                   </Avatar>
                   <div className="flex-1 min-w-0 space-y-1.5">
                     <Typography>{user.name}</Typography>
-                    <div className="flex items-center gap-2">
+                    <Stack direction="row" alignItems="center" spacing={2}>
                       <span className="text-xs text-muted-foreground">
                         {user.isTyping
                           ? 'typing...'
                           : getRelativeTime(now, user.lastActivity)}
                       </span>
                       {user.isTyping && (
-                        <Badge variant="secondary" className="animate-pulse text-xs h-5">
-                          Typing
-                        </Badge>
+                        <Badge
+                          variant="secondary"
+                          className="animate-pulse text-xs h-5"
+                          label="Typing"
+                        />
                       )}
-                    </div>
+                    </Stack>
                   </div>
-                </div>
+                </Stack>
               ))}
             </Stack>
           </Stack>

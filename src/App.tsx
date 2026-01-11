@@ -20,6 +20,16 @@ export const App = () => {
     markTyping,
   } = useCollaborativeSession();
 
+  const otherUsers = useMemo(
+    () => users.filter(user => user.id !== currentUser.id),
+    [users, currentUser.id]
+  );
+
+  const typingUsers = useMemo(
+    () => users.filter(user => user.id !== currentUser.id).filter(user => user.isTyping),
+    [users, currentUser.id]
+  );
+
   if (!isInitialized) {
     return (
       <Stack>
@@ -28,16 +38,6 @@ export const App = () => {
       </Stack>
     );
   }
-
-  const otherUsers = useMemo(
-    () => users.filter(user => user.id !== currentUser.id),
-    [users, currentUser.id]
-  );
-
-  const typingUsers = useMemo(
-    () => otherUsers.filter(user => user.isTyping),
-    [otherUsers]
-  );
 
   return (
     <Stack
@@ -58,6 +58,7 @@ export const App = () => {
       >
         <Box
           sx={{
+            maxHeight: { xs: '25vh', md: '100%' },
             width: { xs: '100%', md: '320px' },
             flexShrink: 0,
             overflowY: 'auto',
@@ -69,7 +70,7 @@ export const App = () => {
             onUpdateUsername={updateUsername}
           />
         </Box>
-        <Stack width={{ xs: '100%', md: '75%' }}>
+        <Stack height={{ xs: '75vh', md: '100%' }} width={{ xs: '100%', md: '75%' }}>
           <Counter
             counter={counter}
             onIncrement={incrementCounter}
